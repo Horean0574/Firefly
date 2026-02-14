@@ -6,7 +6,7 @@ import "dayjs/locale/zh-cn";
 
 export const memosConfig: MemosConfig = {
     host: "memos.hxrch.top",
-    pageLimit: 1,
+    pageLimit: 10,
 };
 
 export const dayjsInit = (): void => {
