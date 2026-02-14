@@ -3,7 +3,6 @@ import { getEntry, render } from "astro:content";
 import Comment from "@components/comment/index.astro";
 import Markdown from "@components/common/Markdown.astro";
 import { Icon } from "astro-icon/components";
-import { dayjsInit, getMoments, profileConfig } from "@/config";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
@@ -15,9 +14,6 @@ if (!momentsPost) {
 }
 
 const { Content } = await render(momentsPost);
-
-dayjsInit();
-const { items, nextToken } = await getMoments();
 
 // 页面标题和描述
 const title = i18n(I18nKey.moments);
@@ -95,40 +91,36 @@ const description = i18n(I18nKey.momentsDescription);
     <!--</div>-->
 
     <script>
-        import { profileConfig, loadMoreMoments, dayjsInit } from "@/config";
+        import {
+            profileConfig,
+            dayjsInit,
+            getMoments,
+            loadMoreMoments,
+            getMomentsHTML,
+            getLoadMoreBtnHTML,
+        } from "@/config";
         import type { MomentItem } from "@/types/config";
 
-        dayjsInit();
-        const loadMoreContainer = document.querySelector("#load-more-container");
-        const nextToken = loadMoreContainer.dataset.nextToken;
-        const loadMoreBtn = document.querySelector("#load-more-btn");
-        loadMoreBtn?.addEventListener("click", async () => {
-            if (nextToken === "") return;
-            loadMoreBtn.disabled = true;
-            loadMoreBtn.innerHTML = "加载中……";
-            loadMoreBtn.classList.remove("hover:bg-(--btn-regular-bg-hover)");
-            loadMoreBtn.classList.remove("active:bg-(--btn-regular-bg-active)");
-            loadMoreBtn.classList.add("text-(--content-meta)");
-            loadMoreBtn.classList.add("cursor-not-allowed");
-            const { items: items1, nextToken: nextToken1 } = await loadMoreMoments(nextToken);
-            document.querySelector("#moments-container").innerHTML += items1.map((item: MomentItem) => {
-                return `<hr class="my-6 border-dashed" style="border-color: var(--line-divider);">
-                        <div class="flex gap-2.5">
-                            <img src=${profileConfig.avatar} alt="🍃" class="w-8 h-8 rounded">
-                            <section>
-                                <p class="text-sm text-gray-800">${profileConfig.name}</p>
-                                <p class="text-gray-500" style="font-size: 10px;">${item.created}</p>
-                                <p class="mt-2.5 text-gray-700">${item.content}</p>
-                            </section>
-                        </div>`;
-            }).join("");
-            loadMoreContainer.innerHTML = nextToken1 === ""
-                ? `<p class="text-gray-400" style="font-size: 12px;">---------------&nbsp;已经到底了哦&nbsp;---------------</p>`
-                : `<button id="load-more-btn" class="inline-block h-10 px-6 py-2 border-none rounded-lg text-sm text-center text-(--btn-content) bg-(--btn-regular-bg)
-                hover:scale-105 hover:bg-(--btn-regular-bg-hover) active:bg-(--btn-regular-bg-active) active:scale-95 transition-all duration-300"
-                            style="box-shadow: 0 1px 2px #0000000d;">
-                        加载更多……
-                    </button>`;
+        window.addEventListener("DOMContentLoaded", async () => {
+            dayjsInit();
+            const momentsContainer = document.querySelector("#moments-container");
+            const loadMoreContainer = document.querySelector("#load-more-container");
+            const loadMoreBtn = document.querySelector("#load-more-btn");
+            const { items, nextToken } = await getMoments();
+            momentsContainer.innerHTML = getMomentsHTML(items);
+            loadMoreBtn.innerHTML = getLoadMoreBtnHTML(nextToken);
+            loadMoreBtn.addEventListener("click", async () => {
+                if (nextToken === "") return;
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.innerHTML = "加载中……";
+                loadMoreBtn.classList.remove("hover:bg-(--btn-regular-bg-hover)");
+                loadMoreBtn.classList.remove("active:bg-(--btn-regular-bg-active)");
+                loadMoreBtn.classList.add("text-(--content-meta)");
+                loadMoreBtn.classList.add("cursor-not-allowed");
+                const { items: items1, nextToken: nextToken1 } = await loadMoreMoments(nextToken);
+                momentsContainer.innerHTML += getMomentsHTML(items1);
+                loadMoreContainer.innerHTML = getLoadMoreBtnHTML(nextToken1);
+            });
         });
     </script>
 </MainGridLayout>
