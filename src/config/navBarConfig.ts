@@ -64,6 +64,9 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			// 根据配置决定是否添加番组计划，在siteConfig关闭pages.bangumi时导航栏不显示番组计划
 			...(siteConfig.pages.bangumi ? [LinkPreset.Bangumi] : []),
 			
+			// 片刻页面
+			LinkPreset.Moments,
+			
 			{
 				name: "状态监控",
 				url: "https://status.hxrch.top",

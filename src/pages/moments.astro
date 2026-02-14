@@ -1,0 +1,134 @@
+---
+import { getEntry, render } from "astro:content";
+import Comment from "@components/comment/index.astro";
+import Markdown from "@components/common/Markdown.astro";
+import { Icon } from "astro-icon/components";
+import { dayjsInit, getMoments, profileConfig } from "@/config";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+
+const momentsPost = await getEntry("spec", "moments");
+
+if (!momentsPost) {
+    throw new Error("moments page content not found");
+}
+
+const { Content } = await render(momentsPost);
+
+dayjsInit();
+const { items, nextToken } = await getMoments();
+
+// 页面标题和描述
+const title = i18n(I18nKey.moments);
+const description = i18n(I18nKey.momentsDescription);
+---
+
+<MainGridLayout title={title} description={description}>
+    <div
+            class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
+    >
+        <div class="card-base z-10 px-9 py-6 relative w-full">
+            <!-- 页面标题和描述 -->
+            <div class="mb-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <div
+                            class="h-8 w-8 rounded-lg bg-(--primary) flex items-center justify-center text-white dark:text-black/70"
+                    >
+                        <Icon name="material-symbols:android-chat-outline" class="text-[1.5rem]"/>
+                    </div>
+                    <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+                        {title}
+                    </h1>
+                </div>
+                {
+                    description && (
+                                <p class="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                                    {description}
+                                </p>
+                    )
+                }
+            </div>
+
+            <div id="moments-container" class="mt-12">
+                {
+                    items.map((item, i) => (
+                            <>
+                                {i > 0 &&
+                                        <hr class="my-6 border-dashed" style="border-color: var(--line-divider);">}
+                                <div class="flex gap-2.5">
+                                    <img src={profileConfig.avatar} alt="🍃" class="w-8 h-8 rounded">
+                                    <section>
+                                        <p class="text-sm text-gray-800">{profileConfig.name}</p>
+                                        <p class="text-gray-500" style="font-size: 10px;">{item.created}</p>
+                                        <p class="mt-2.5 text-gray-700">{item.content}</p>
+                                    </section>
+                                </div>
+                                <!--<Comment post={momentsPost} customPath=`/moments?which=${items.length - i}`></Comment>-->
+                            </>
+                    ))
+                }
+            </div>
+
+            <div id="load-more-container" class="mt-10 text-center" data-next-token={nextToken}>
+                {
+                    nextToken === "" ?
+                            <p class="text-gray-400" style="font-size: 10px;">---------------&nbsp;已经到底了哦&nbsp;---------------</p> :
+                            <button id="load-more-btn" class="inline-block h-10 px-6 py-2 border-none rounded-lg text-sm text-center text-(--btn-content) bg-(--btn-regular-bg)
+                        hover:scale-105 hover:bg-(--btn-regular-bg-hover) active:bg-(--btn-regular-bg-active) active:scale-95 transition-all duration-300"
+                                    style="box-shadow: 0 1px 2px #0000000d;">
+                                加载更多……
+                            </button>
+                }
+            </div>
+
+
+            <Markdown class="mt-2">
+                <Content/>
+            </Markdown>
+        </div>
+    </div>
+
+    <!-- 评论区 -->
+    <!--<div class="mt-4">-->
+    <!--<Comment post={momentsPost} customPath="/friends/" />-->
+    <!--</div>-->
+
+    <script>
+        import { profileConfig, loadMoreMoments, dayjsInit } from "@/config";
+        import type { MomentItem } from "@/types/config";
+
+        dayjsInit();
+        const loadMoreContainer = document.querySelector("#load-more-container");
+        const nextToken = loadMoreContainer.dataset.nextToken;
+        const loadMoreBtn = document.querySelector("#load-more-btn");
+        loadMoreBtn?.addEventListener("click", async () => {
+            if (nextToken === "") return;
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.innerHTML = "加载中……";
+            loadMoreBtn.classList.remove("hover:bg-(--btn-regular-bg-hover)");
+            loadMoreBtn.classList.remove("active:bg-(--btn-regular-bg-active)");
+            loadMoreBtn.classList.add("text-(--content-meta)");
+            loadMoreBtn.classList.add("cursor-not-allowed");
+            const { items: items1, nextToken: nextToken1 } = await loadMoreMoments(nextToken);
+            document.querySelector("#moments-container").innerHTML += items1.map((item: MomentItem) => {
+                return `<hr class="my-6 border-dashed" style="border-color: var(--line-divider);">
+                        <div class="flex gap-2.5">
+                            <img src=${profileConfig.avatar} alt="🍃" class="w-8 h-8 rounded">
+                            <section>
+                                <p class="text-sm text-gray-800">${profileConfig.name}</p>
+                                <p class="text-gray-500" style="font-size: 10px;">${item.created}</p>
+                                <p class="mt-2.5 text-gray-700">${item.content}</p>
+                            </section>
+                        </div>`;
+            }).join("");
+            loadMoreContainer.innerHTML = nextToken1 === ""
+                ? `<p class="text-gray-400" style="font-size: 12px;">---------------&nbsp;已经到底了哦&nbsp;---------------</p>`
+                : `<button id="load-more-btn" class="inline-block h-10 px-6 py-2 border-none rounded-lg text-sm text-center text-(--btn-content) bg-(--btn-regular-bg)
+                hover:scale-105 hover:bg-(--btn-regular-bg-hover) active:bg-(--btn-regular-bg-active) active:scale-95 transition-all duration-300"
+                            style="box-shadow: 0 1px 2px #0000000d;">
+                        加载更多……
+                    </button>`;
+        });
+    </script>
+</MainGridLayout>
