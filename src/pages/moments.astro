@@ -75,10 +75,10 @@ const description = i18n(I18nKey.momentsDescription);
             dayjsInit();
             const momentsContainer = document.querySelector("#moments-container");
             const loadMoreContainer = document.querySelector("#load-more-container");
-            const loadMoreBtn = document.querySelector("#load-more-btn");
-            const { items, nextToken } = await getMoments();
+            let { items, nextToken } = await getMoments();
             momentsContainer.innerHTML = getMomentsHTML(items);
-            loadMoreBtn.innerHTML = getLoadMoreBtnHTML(nextToken);
+            loadMoreContainer.innerHTML = getLoadMoreBtnHTML(nextToken);
+            let loadMoreBtn = document.querySelector("#load-more-btn");
             loadMoreBtn.addEventListener("click", async () => {
                 if (nextToken === "") return;
                 loadMoreBtn.disabled = true;
@@ -89,7 +89,17 @@ const description = i18n(I18nKey.momentsDescription);
                 loadMoreBtn.classList.add("cursor-not-allowed");
                 const { items: items1, nextToken: nextToken1 } = await loadMoreMoments(nextToken);
                 momentsContainer.innerHTML += getMomentsHTML(items1);
-                loadMoreContainer.innerHTML = getLoadMoreBtnHTML(nextToken1);
+                if (nextToken1 === "") {
+                    loadMoreContainer.innerHTML = getLoadMoreBtnHTML("");
+                } else {
+                    nextToken = nextToken1;
+                    loadMoreBtn.disabled = false;
+                    loadMoreBtn.innerHTML = "加载更多……";
+                    loadMoreBtn.classList.add("hover:bg-(--btn-regular-bg-hover)");
+                    loadMoreBtn.classList.add("active:bg-(--btn-regular-bg-active)");
+                    loadMoreBtn.classList.remove("text-(--content-meta)");
+                    loadMoreBtn.classList.remove("cursor-not-allowed");
+                }
             });
         });
     </script>

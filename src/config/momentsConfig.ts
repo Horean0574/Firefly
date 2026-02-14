@@ -1,12 +1,12 @@
 import type { MomentItem, MomentsLoadResult, MemosConfig } from "../types/config";
-import { profileConfig } from "@/config";
+import { profileConfig } from "../config";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/zh-cn";
 
 export const memosConfig: MemosConfig = {
     host: "memos.hxrch.top",
-    pageLimit: 10,
+    pageLimit: 1,
 };
 
 export const dayjsInit = (): void => {
