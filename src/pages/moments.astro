@@ -46,7 +46,52 @@ const description = i18n(I18nKey.momentsDescription);
                 }
             </div>
 
-            <div id="moments-container" class="mt-12"></div>
+            <div id="moments-container" class="mt-12">
+                <style>
+                    @keyframes loading-placeholder-flame {
+                        0% {
+                            filter: brightness(100%);
+                        }
+                        50% {
+                            filter: brightness(92%);
+                        }
+                        100% {
+                            filter: brightness(100%);
+                        }
+                    }
+
+                    .loading-placeholder {
+                        color: transparent;
+                        background: linear-gradient(to right, #E5E7EB, #E5E7EB) no-repeat center center;
+                        background-size: auto 1.1em;
+                        border-radius: 0.3rem;
+                        animation: loading-placeholder-flame 1.5s infinite;
+                    }
+                </style>
+                {
+                    [1, 2, 3].map((i) => (
+                            <>
+                                {i > 1 &&
+                                        <hr class="my-6 border-dashed" style="border-color: var(--line-divider);">}
+                                <div class="flex gap-2.5 select-none">
+                                <span class="inline-block w-8 h-8 rounded text-transparent bg-gray-200"
+                                      style="animation: loading-placeholder-flame 1.5s infinite;">Lorem.</span>
+                                    <section>
+                                        <p class="text-sm">
+                                            <span class="loading-placeholder">Horean</span>
+                                        </p>
+                                        <p style="font-size: 10px;">
+                                            <span class="loading-placeholder">3&nbsp;个月前</span>
+                                        </p>
+                                        <span class="mt-2.5 loading-placeholder">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        Adipisci, aliquid architecto at aut beatae cumque debitis dolor dolore esse fugiat odit quas
+                                        quia repellat soluta veniam, voluptates voluptatibus. Iure, reiciendis.</span>
+                                    </section>
+                                </div>
+                            </>
+                    ))
+                }
+            </div>
 
             <div id="load-more-container" class="mt-10 text-center"></div>
 
@@ -71,15 +116,15 @@ const description = i18n(I18nKey.momentsDescription);
             getLoadMoreBtnHTML,
         } from "@/config";
 
-        window.addEventListener("DOMContentLoaded", async () => {
+        const momentsEventHandler = async () => {
             dayjsInit();
-            const momentsContainer = document.querySelector("#moments-container");
-            const loadMoreContainer = document.querySelector("#load-more-container");
+            const momentsContainer = document.querySelector("#moments-container") as Element;
+            const loadMoreContainer = document.querySelector("#load-more-container") as Element;
             let { items, nextToken } = await getMoments();
             momentsContainer.innerHTML = getMomentsHTML(items);
             loadMoreContainer.innerHTML = getLoadMoreBtnHTML(nextToken);
-            let loadMoreBtn = document.querySelector("#load-more-btn");
-            loadMoreBtn.addEventListener("click", async () => {
+            let loadMoreBtn = document.querySelector<HTMLButtonElement>("#load-more-btn");
+            loadMoreBtn?.addEventListener("click", async () => {
                 if (nextToken === "") return;
                 loadMoreBtn.disabled = true;
                 loadMoreBtn.innerHTML = "加载中……";
@@ -101,6 +146,9 @@ const description = i18n(I18nKey.momentsDescription);
                     loadMoreBtn.classList.remove("cursor-not-allowed");
                 }
             });
-        });
+        };
+
+        document.addEventListener("moments:ready", momentsEventHandler);
+        window.addEventListener("DOMContentLoaded", momentsEventHandler);
     </script>
 </MainGridLayout>

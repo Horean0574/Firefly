@@ -41,16 +41,16 @@ export const loadMoreMoments = async (token: string): Promise<MomentsLoadResult>
 };
 
 export const getMomentsHTML = (items: MomentItem[]): string => {
-    return items.map((item: MomentItem) => {
-        return `<hr class="my-6 border-dashed" style="border-color: var(--line-divider);">
-                        <div class="flex gap-2.5">
-                            <img src=${profileConfig.avatar} alt="🍃" class="w-8 h-8 rounded">
-                            <section>
-                                <p class="text-sm text-gray-800">${profileConfig.name}</p>
-                                <p class="text-gray-500" style="font-size: 10px;">${item.created}</p>
-                                <p class="mt-2.5 text-gray-700">${item.content}</p>
-                            </section>
-                        </div>`;
+    return items.map((item: MomentItem, i) => {
+        return (i > 0 ? `<hr class="my-6 border-dashed" style="border-color: var(--line-divider);">` : ``)
+            + `<div class="flex gap-2.5">
+                <img src=${profileConfig.avatar} alt="🍃" class="w-8 h-8 rounded">
+                <section>
+                    <p class="text-sm text-gray-800">${profileConfig.name}</p>
+                    <p class="text-gray-500" style="font-size: 10px;">${item.created}</p>
+                    <p class="mt-2.5 text-gray-700">${item.content}</p>
+                </section>
+            </div>`;
     }).join("");
 };
 
