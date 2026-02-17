@@ -1,5 +1,3 @@
-@import url(../../../src/styles/twikoo.css);
-
 .tk-meta-input .el-input {
     min-height: calc(var(--spacing) * 9);
 }
