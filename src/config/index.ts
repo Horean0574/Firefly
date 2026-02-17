@@ -3,24 +3,24 @@
 
 // 类型导出
 export type {
-	AnnouncementConfig,
-	BackgroundWallpaperConfig,
-	CommentConfig,
-	CoverImageConfig,
-	ExpressiveCodeConfig,
-	FooterConfig,
-	LicenseConfig,
-	MusicPlayerConfig,
-	NavBarConfig,
-	ProfileConfig,
-	SakuraConfig,
-	SidebarLayoutConfig,
-	SiteConfig,
-	SponsorConfig,
-	SponsorItem,
-	SponsorMethod,
-	WidgetComponentConfig,
-	WidgetComponentType,
+    AnnouncementConfig,
+    BackgroundWallpaperConfig,
+    CommentConfig,
+    CoverImageConfig,
+    ExpressiveCodeConfig,
+    FooterConfig,
+    LicenseConfig,
+    MusicPlayerConfig,
+    NavBarConfig,
+    ProfileConfig,
+    SakuraConfig,
+    SidebarLayoutConfig,
+    SiteConfig,
+    SponsorConfig,
+    SponsorItem,
+    SponsorMethod,
+    WidgetComponentConfig,
+    WidgetComponentType,
 } from "../types/config";
 export { adConfig1, adConfig2 } from "./adConfig"; // 广告配置
 export { announcementConfig } from "./announcementConfig"; // 公告配置
@@ -33,6 +33,7 @@ export { expressiveCodeConfig } from "./expressiveCodeConfig"; // 代码高亮�
 export { fontConfig } from "./fontConfig"; // 字体配置
 export { footerConfig } from "./footerConfig"; // 页脚配置
 export { friendsPageConfig, getEnabledFriends } from "./friendsConfig"; // 友链配置
+export { dayjsInit, memosConfig, getMoments, loadMoreMoments, getMomentsHTML, getLoadMoreBtnHTML } from "./momentsConfig";
 export { licenseConfig } from "./licenseConfig"; // 许可证配置
 // 组件配置
 export { musicPlayerConfig } from "./musicConfig"; // 音乐播放器配置

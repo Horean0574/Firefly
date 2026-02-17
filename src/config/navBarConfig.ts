@@ -19,7 +19,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	];
 
 	// 自定义导航栏链接,并且支持多级菜单
-	links.push({
+	/*links.push({
 		name: "链接",
 		url: "/links/",
 		icon: "material-symbols:link",
@@ -39,7 +39,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				icon: "fa7-brands:bilibili",
 			},
 		],
-	});
+	});*/
 
 	// 友链
 	links.push(LinkPreset.Friends);
@@ -63,6 +63,30 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 			// 根据配置决定是否添加番组计划，在siteConfig关闭pages.bangumi时导航栏不显示番组计划
 			...(siteConfig.pages.bangumi ? [LinkPreset.Bangumi] : []),
+
+			// 片刻页面
+			LinkPreset.Moments,
+
+			{
+				name: "状态监控",
+				url: "https://status.hxrch.top",
+				external: true,
+				icon: "material-symbols:monitoring-rounded",
+			},
+		],
+	});
+
+	links.push({
+		name: "接力",
+		url: "/relay/",
+		icon: "fa7-solid:paper-plane",
+		children: [
+			{
+				name: "开往",
+				url: "https://www.travellings.cn/go.html",
+				external: true,
+				icon: "material-symbols:subway",
+			},
 		],
 	});
 
