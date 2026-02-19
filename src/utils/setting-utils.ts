@@ -113,23 +113,7 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
     }
 
     // 自动切换对应模式背景图片
-    const desktopSelector = ".banner-image-slot-desktop img[alt^=Desktop]";
-    const desktopImg = document.querySelector(desktopSelector) as HTMLImageElement;
-    const mobileSelector = ".banner-image-slot-mobile img[alt^=Mobile]";
-    const mobileImg = document.querySelector(mobileSelector) as HTMLImageElement;
-    type bgwSrcObj = {
-        desktop?: string | string[];
-        desktopDark?: string | string[];
-        mobile?: string | string[];
-        mobileDark?: string | string[];
-    };
-    if (!currentIsDark && targetIsDark) {
-        desktopImg.src = (backgroundWallpaper.src as bgwSrcObj).desktopDark as string;
-        mobileImg.src = (backgroundWallpaper.src as bgwSrcObj).mobileDark as string;
-    } else if (currentIsDark && !targetIsDark) {
-        desktopImg.src = (backgroundWallpaper.src as bgwSrcObj).desktop as string;
-        mobileImg.src = (backgroundWallpaper.src as bgwSrcObj).mobile as string;
-    }
+    document.documentElement.dataset.themeMode = targetIsDark ? "dark" : "light";
 
     // 检测是否真的需要主题切换：
     // 1. dark类状态是否改变

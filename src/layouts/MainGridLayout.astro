@@ -35,6 +35,7 @@ import {
     type ResponsiveSidebarConfig,
 } from "@/utils/responsive-utils";
 import Layout from "./Layout.astro";
+import { backgroundWallpaper } from "@/config/backgroundWallpaper.ts";
 
 import "@/styles/markdown.css";
 import "@/styles/expressive-code.css";
@@ -57,6 +58,7 @@ interface Props {
 }
 
 const backgroundImages = getBackgroundImages();
+const backgroundImagesDark = backgroundWallpaper.src as { desktopDark: string; mobileDark: string; };
 
 const {
     title,
@@ -246,6 +248,57 @@ const configQuality = getImageQuality();
 const mobileQuality = Math.round(configQuality * 0.9);
 ---
 
+<style is:inline>
+    [data-theme-mode="light"] .dark-theme-wallpaper {
+        display: none;
+    }
+
+    [data-theme-mode="dark"] .light-theme-wallpaper {
+        display: none;
+    }
+</style>
+<script is:inline>
+    const LIGHT_MODE = "light";
+    const DARK_MODE = "dark";
+    const SYSTEM_MODE = "system";
+
+    function getDefaultTheme() {
+        // 如果配置文件中设置了 defaultMode，使用配置的值
+        // 否则使用 DEFAULT_THEME（向后兼容）
+        return siteConfig.themeColor.defaultMode ?? LIGHT_MODE;
+    }
+
+    function getSystemTheme() {
+        if (typeof window === "undefined") {
+            return LIGHT_MODE;
+        }
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? DARK_MODE
+            : LIGHT_MODE;
+    }
+
+    function resolveTheme(theme) {
+        if (theme === SYSTEM_MODE) {
+            return getSystemTheme();
+        }
+        return theme;
+    }
+
+    function getStoredTheme() {
+        // 检查是否在浏览器环境中
+        if (
+            typeof localStorage === "undefined" ||
+            typeof localStorage.getItem !== "function"
+        ) {
+            return getDefaultTheme();
+        }
+        return (
+            localStorage.getItem("theme") || getDefaultTheme()
+        );
+    }
+
+    document.documentElement.dataset.themeMode = resolveTheme(getStoredTheme());
+</script>
 <Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle}
         postSlug={postSlug}>
 
@@ -287,8 +340,19 @@ const mobileQuality = Math.round(configQuality * 0.9);
                             <div class="banner-image-slot-mobile absolute inset-0 block lg:hidden">
                                 <ImageWrapper
                                         alt="Mobile background image of the blog"
-                                        class="object-cover h-full w-full"
+                                        class="light-theme-wallpaper object-cover h-full w-full"
                                         src={backgroundImages.mobile[0]}
+                                        position={backgroundWallpaper.banner?.position}
+                                        widths={[640, 750, 1080]}
+                                        sizes="100vw"
+                                        loading="eager"
+                                        fetchpriority="high"
+                                        quality={mobileQuality}
+                                />
+                                <ImageWrapper
+                                        alt="Mobile background image of the blog"
+                                        class="dark-theme-wallpaper object-cover h-full w-full"
+                                        src={backgroundImagesDark.mobileDark}
                                         position={backgroundWallpaper.banner?.position}
                                         widths={[640, 750, 1080]}
                                         sizes="100vw"
@@ -319,8 +383,20 @@ const mobileQuality = Math.round(configQuality * 0.9);
                                 <ImageWrapper
                                         id="banner"
                                         alt="Desktop background image of the blog"
-                                        class="object-cover h-full"
+                                        class="light-theme-wallpaper object-cover h-full"
                                         src={backgroundImages.desktop[0]}
+                                        position={backgroundWallpaper.banner?.position}
+                                        widths={[1280, 1920, 2560]}
+                                        sizes="100vw"
+                                        loading="eager"
+                                        fetchpriority="high"
+                                        quality={configQuality}
+                                />
+                                <ImageWrapper
+                                        id="banner"
+                                        alt="Desktop background image of the blog"
+                                        class="dark-theme-wallpaper object-cover h-full"
+                                        src={backgroundImagesDark.desktopDark}
                                         position={backgroundWallpaper.banner?.position}
                                         widths={[1280, 1920, 2560]}
                                         sizes="100vw"
