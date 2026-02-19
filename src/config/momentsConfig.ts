@@ -1,8 +1,8 @@
 import type { MomentItem, MomentsLoadResult, MemosConfig } from "../types/config";
 import { profileConfig } from "../config";
 import dayjs from "dayjs";
-import calendar from "dayjs/plugin/calendar";
-import updateLocale from "dayjs/plugin/updateLocale";
+import relativeTime from "dayjs/plugin/relativeTime";
+import weekday from "dayjs/plugin/weekday";
 import "dayjs/locale/zh-cn";
 
 export const memosConfig: MemosConfig = {
@@ -11,24 +11,55 @@ export const memosConfig: MemosConfig = {
 };
 
 export const dayjsInit = (): void => {
-    dayjs.extend(calendar);
-    dayjs.extend(updateLocale);
+    dayjs.extend(relativeTime);
+    dayjs.extend(weekday);
     dayjs.locale("zh-cn");
-    dayjs.updateLocale("zh-cn", {
-        calendar: {
-            lastDay: "[昨天] H:mm",
-            sameDay: "[今天] H:mm",
-            nextDay: "[明天] H:mm",
-            lastWeek: function () {
-                return `上${this.format("dddd").replace("星期", "周")} ${this.format("H")}:${this.format("mm")}`;
-            },
-            nextWeek: function () {
-                return `下${this.format("dddd").replace("星期", "周")} ${this.format("H")}:${this.format("mm")}`;
-            },
-            sameElse: "YYYY年MM月DD日 H:mm",
-        },
-    });
 };
+
+function customCalendar(date: dayjs.Dayjs | string, referenceDay: dayjs.Dayjs | string = dayjs()) {
+    const ref = dayjs(referenceDay);
+    const target = dayjs(date);
+    const diffHours = ref.diff(target, "hour");
+    if (diffHours < 7) return target.from(ref);
+
+    const specify = (prefix: string, dt: dayjs.Dayjs) => {
+        return `${prefix} ${dt.format("H:mm")}`;
+    };
+    const diffDays = ref.startOf("day").diff(target.startOf("day"), "day");
+    switch (diffDays) {
+        case 0:
+            return specify("今天", target);
+        case 1:
+            return specify("昨天", target);
+        case 2:
+            return specify("前天", target);
+        case -1:
+            return specify("明天", target);
+        case -2:
+            return specify("后天", target);
+    }
+
+    const thisMonday = ref.weekday(0);
+    const thisSunday = ref.weekday(6);
+    const lastSunday = thisMonday.subtract(1, "day");
+    const nextMonday = thisSunday.add(1, "day");
+    const beforeLastMonday = lastSunday.subtract(7, "day");
+    const afterNextSunday = nextMonday.add(7, "day");
+    const weekdayName = target.format("dd");
+    if (target.isAfter(lastSunday, "day") && target.isBefore(nextMonday, "day")) {
+        return specify(`周${weekdayName}`, target);
+    } else if (target.isAfter(beforeLastMonday, "day") && target.isBefore(thisMonday, "day")) {
+        return specify(`上周${weekdayName}`, target);
+    } else if (target.isAfter(thisSunday, "day") && target.isBefore(afterNextSunday, "day")) {
+        return specify(`下周${weekdayName}`, target);
+    }
+
+    if (target.year() === ref.year()) {
+        return specify(target.format("M月D日"), target);
+    }
+
+    return specify(target.format("YYYY年M月D日"), target);
+}
 
 const fetchMoments = async (API_URL: string): Promise<MomentsLoadResult> => {
     const items: MomentItem[] = [];
@@ -40,7 +71,7 @@ const fetchMoments = async (API_URL: string): Promise<MomentsLoadResult> => {
             items.push({
                 name: mem.name,
                 content: mem.content,
-                created: dayjs(mem.createTime).calendar(),
+                created: customCalendar(mem.createTime),
             });
         });
         return { items: items, nextToken: data.nextPageToken };
