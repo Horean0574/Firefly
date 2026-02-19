@@ -145,6 +145,15 @@ export const friendsConfig: FriendLink[] = [
         weight: 1,
         enabled: true,
     },
+	{
+		title: "Rownix's Blog",
+		imgurl: "https://xapi.rownix.dev/8bec399a8d697bf4db49df6073b263795760a2a9.jpg",
+		desc: "慢即是快，快即是慢，致力于为大家提供最好的内容",
+		siteurl: "https://www.rownix.dev",
+		tags: ["博客"],
+		weight: 1,
+		enabled: true,
+	},
 ];
 
 // 获取启用的友链并按权重排序
