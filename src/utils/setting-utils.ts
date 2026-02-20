@@ -113,7 +113,7 @@ export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
     }
 
     // 自动切换对应模式背景图片
-    document.documentElement.dataset.themeMode = targetIsDark ? "dark" : "light";
+    // document.documentElement.dataset.themeMode = targetIsDark ? "dark" : "light";
 
     // 检测是否真的需要主题切换：
     // 1. dark类状态是否改变

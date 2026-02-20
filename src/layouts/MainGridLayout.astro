@@ -35,7 +35,6 @@ import {
     type ResponsiveSidebarConfig,
 } from "@/utils/responsive-utils";
 import Layout from "./Layout.astro";
-import { backgroundWallpaper } from "@/config/backgroundWallpaper.ts";
 
 import "@/styles/markdown.css";
 import "@/styles/expressive-code.css";
@@ -249,56 +248,14 @@ const mobileQuality = Math.round(configQuality * 0.9);
 ---
 
 <style is:inline>
-    [data-theme-mode="light"] .dark-theme-wallpaper {
+    [data-theme*="light"] .dark-theme-wallpaper {
         display: none;
     }
 
-    [data-theme-mode="dark"] .light-theme-wallpaper {
+    [data-theme*="dark"] .light-theme-wallpaper {
         display: none;
     }
 </style>
-<script is:inline>
-    const LIGHT_MODE = "light";
-    const DARK_MODE = "dark";
-    const SYSTEM_MODE = "system";
-
-    function getDefaultTheme() {
-        // 如果配置文件中设置了 defaultMode，使用配置的值
-        // 否则使用 DEFAULT_THEME（向后兼容）
-        return siteConfig.themeColor.defaultMode ?? LIGHT_MODE;
-    }
-
-    function getSystemTheme() {
-        if (typeof window === "undefined") {
-            return LIGHT_MODE;
-        }
-        return window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? DARK_MODE
-            : LIGHT_MODE;
-    }
-
-    function resolveTheme(theme) {
-        if (theme === SYSTEM_MODE) {
-            return getSystemTheme();
-        }
-        return theme;
-    }
-
-    function getStoredTheme() {
-        // 检查是否在浏览器环境中
-        if (
-            typeof localStorage === "undefined" ||
-            typeof localStorage.getItem !== "function"
-        ) {
-            return getDefaultTheme();
-        }
-        return (
-            localStorage.getItem("theme") || getDefaultTheme()
-        );
-    }
-
-    document.documentElement.dataset.themeMode = resolveTheme(getStoredTheme());
-</script>
 <Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle}
         postSlug={postSlug}>
 
