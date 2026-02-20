@@ -297,7 +297,9 @@ export const commentConfig: CommentConfig = {
 
 ---
 
-> 遗憾的是，虽然 [Twikoo](https://twikoo.js.org) 管理面板中有 `导入` 功能，但是不支持从 [Waline](https://waline.js.org) 导入，所以之前的评论数据可能暂时无法迁移到这里，烦请大家谅解🙏
+> ~~遗憾的是，虽然 [Twikoo](https://twikoo.js.org) 管理面板中有 `导入` 功能，但是不支持从 [Waline](https://waline.js.org) 导入，所以之前的评论数据可能暂时无法迁移到这里，烦请大家谅解🙏~~
+>
+> 现在已经完成评论系统的数据迁移啦，详见 [数据迁移之「从 Waline 到 Twikoo」](/posts/数据迁移之从-waline-到-twikoo/)。
 
 # 内容迁移
 
