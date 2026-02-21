@@ -1,6 +1,6 @@
 ---
 title: 数据迁移之「从 Waline 到 Twikoo」
-published: 2026-02-20 21:26:27
+published: 2026-02-20 21:26:27+08
 description: '本文介绍了如何将博客的评论系统从 Waline 迁移到 Twikoo，重点在于分析两者的数据结构差异并自行编写迁移程序。文中首先回顾了前一篇文章中的相关背景，然后详细比较了 Waline 和 Twikoo 的数据格式，接着阐述了程序的构思、数据迁移的流程和实现，并提供了完整的迁移代码。'
 tags: [技术, 博客, 迁移, 教程, 评论系统, Waline, Twikoo]
 category: '开发'

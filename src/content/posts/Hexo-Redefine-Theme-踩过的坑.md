@@ -4,8 +4,8 @@ tags: [Hexo, 踩过的坑]
 category: 开发
 image: https://img.hxrch.top/202507210903988.webp
 description: 本文介绍了使用 Hexo 建立个人博客时可能遇到的问题，尤其是针对 Redefine 主题在 Windows 系统中的具体配置步骤。文章详细讲解了 Hexo 的安装、项目初始化、主题安装与启用，以及一些常见的坑和解决方案，包括 Hexo 版本的选择和 LaTeX 渲染的配置。
-published: 2023-08-30 11:16:08
-updated: 2025-07-11 07:07:36
+published: 2023-08-30 11:16:08+08
+updated: 2025-07-11 07:07:36+08
 ---
 
 

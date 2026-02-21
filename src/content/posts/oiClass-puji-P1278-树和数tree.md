@@ -3,8 +3,8 @@ title: oiClass-puji P1278-树和数tree
 tags: [OI, 树结构]
 category: 题解
 description: oiClass-puji P1278-树和数tree 题解
-published: 2023-08-25 11:48:42
-updated: 2023-08-30 21:24:25
+published: 2023-08-25 11:48:42+08
+updated: 2023-08-30 21:24:25+08
 ---
 
 [原题链接](http://oiclass.com/d/puji/p/1278)

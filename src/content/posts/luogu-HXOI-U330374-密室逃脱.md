@@ -3,8 +3,8 @@ title: luogu-HXOI U330374-密室逃脱
 tags: [OI, HXOI, 搜索, 广搜，BFS]
 category: 题解
 description: 洛谷-HXOI U330374-密室逃脱 Std | 题解
-published: 2023-08-23 08:19:24
-updated: 2023-09-01 19:52:20
+published: 2023-08-23 08:19:24+08
+updated: 2023-09-01 19:52:20+08
 ---
 
 [原题链接](https://www.luogu.com.cn/problem/U330374)

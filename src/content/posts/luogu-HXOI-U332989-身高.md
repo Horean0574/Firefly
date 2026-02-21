@@ -3,8 +3,8 @@ title: luogu-HXOI U332989-身高
 tags: [OI, HXOI, 倍增算法]
 category: 题解
 description: 洛谷-HXOI U332989-身高 Std | 题解
-published: 2023-08-27 22:12:54
-updated: 2023-08-30 22:31:14
+published: 2023-08-27 22:12:54+08
+updated: 2023-08-30 22:31:14+08
 ---
 
 [原题链接](https://www.luogu.com.cn/problem/U332989)

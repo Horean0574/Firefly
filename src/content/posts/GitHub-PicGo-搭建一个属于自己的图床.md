@@ -3,9 +3,8 @@ title: GitHub + PicGo 搭建一个属于自己的图床
 tags: [GitHub, PicGo, 图床]
 category: 开发
 description: 手把手教你如何搭建一个完全属于自己的图床，完全免费，而且空间无限量！
-published: 2023-09-01 13:40:21
-updated: 2024-08-16 16:34:19
-expires: 2022-04-28 12:12:12
+published: 2023-09-01 13:40:21+08
+updated: 2024-08-16 16:34:19+08
 ---
 
 

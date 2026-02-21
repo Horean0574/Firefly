@@ -3,8 +3,8 @@ title: oiClass-puji P2112-征兵
 tags: [OI, 最小生成树]
 category: 题解
 description: oiClass-puji P2112-征兵 题解
-published: 2023-08-24 12:08:30
-updated: 2023-08-30 22:45:26
+published: 2023-08-24 12:08:30+08
+updated: 2023-08-30 22:45:26+08
 ---
 
 [原题链接](http://oiclass.com/d/puji/p/P2112/)
