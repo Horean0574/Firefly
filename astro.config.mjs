@@ -178,7 +178,7 @@ export default defineConfig({
                 rehypeExternalLinks,
                 {
                     target: "_blank",
-                    rel: ["nofollow", "noopener", "noreferrer"],
+                    rel: ["nofollow", "noopener"],
                 },
             ],
             [rehypeCallouts, { theme: siteConfig.rehypeCallouts.theme }],
