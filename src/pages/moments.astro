@@ -1,0 +1,263 @@
+---
+import { getEntry, render } from "astro:content";
+import Markdown from "@components/common/Markdown.astro";
+import { Icon } from "astro-icon/components";
+import I18nKey from "@/i18n/i18nKey";
+import { i18n } from "@/i18n/translation";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { url } from "@/utils/url-utils";
+
+const momentsPost = await getEntry("spec", "moments");
+
+if (!momentsPost) {
+    throw new Error("moments page content not found");
+}
+
+const { Content } = await render(momentsPost);
+
+// 页面标题和描述
+const title = i18n(I18nKey.moments);
+const description = i18n(I18nKey.momentsDescription);
+---
+
+<link rel="stylesheet" href={url("/assets/css/twikoo.css")}>
+<link rel="stylesheet" href={url("/assets/css/moments-twikoo.css")}>
+<MainGridLayout title={title} description={description}>
+    <div
+            class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32"
+    >
+        <div class="card-base z-10 px-9 py-6 relative w-full">
+            <!-- 页面标题和描述 -->
+            <div class="mb-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <div
+                            class="h-8 w-8 rounded-lg bg-(--primary) flex items-center justify-center text-white dark:text-black/70"
+                    >
+                        <Icon name="material-symbols:android-chat-outline" class="text-[1.5rem]"/>
+                    </div>
+                    <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+                        {title}
+                    </h1>
+                </div>
+                {
+                    description && (
+                                <p class="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                                    {description}
+                                </p>
+                    )
+                }
+            </div>
+
+            <Icon name="fa7-solid:comment-dots" class="hidden text-[1.1rem] mr-2"/>
+            <div id="moments-container" class="mt-12">
+                <style>
+                    @keyframes loading-placeholder-flame {
+                        0% {
+                            filter: brightness(100%);
+                        }
+                        50% {
+                            filter: brightness(92%);
+                        }
+                        100% {
+                            filter: brightness(100%);
+                        }
+                    }
+
+                    .loading-placeholder {
+                        color: transparent;
+                        background: linear-gradient(to right, #E5E7EB, #E5E7EB) no-repeat center center;
+                        background-size: auto 1.1em;
+                        border-radius: 0.3rem;
+                        animation: loading-placeholder-flame 1.5s infinite;
+                    }
+                </style>
+                {
+                    [1, 2, 3].map((i) => (
+                            <>
+                                {i > 1 &&
+                                        <hr class="my-6 border-dashed" style="border-color: var(--line-divider);">}
+                                <div class="flex gap-3.5 select-none">
+                                <span class="inline-block w-10 h-10 rounded-md text-transparent bg-gray-200"
+                                      style="animation: loading-placeholder-flame 1.5s infinite;">Lorem.</span>
+                                    <section>
+                                        <p class="text-base">
+                                            <span class="loading-placeholder">Horean</span>
+                                        </p>
+                                        <p class="text-sm">
+                                            <span class="loading-placeholder">3&nbsp;个月前</span>
+                                        </p>
+                                        <span class="mt-2.5 loading-placeholder">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        Adipisci, aliquid architecto at aut beatae cumque debitis dolor dolore esse fugiat odit quas
+                                        quia repellat soluta veniam, voluptates voluptatibus. Iure, reiciendis.</span>
+                                    </section>
+                                </div>
+                            </>
+                    ))
+                }
+            </div>
+
+            <div id="load-more-container" class="mt-10 text-center"></div>
+
+            <Markdown class="mt-2">
+                <Content/>
+            </Markdown>
+        </div>
+    </div>
+
+    <script is:inline src={url("/assets/js/firefly-twikoo-1.6.44.all.min.js")}></script>
+    <script>
+        import {
+            dayjsInit,
+            getMoments,
+            loadMoreMoments,
+            getMomentsHTML,
+            getLoadMoreBtnHTML,
+        } from "@/config";
+        import { commentConfig } from "@/config/commentConfig";
+
+        interface ITwikooConfig {
+            envId: string;
+            lang: string;
+            visitorCount: boolean;
+            el: string;
+            path: string;
+        }
+
+        class MomentsTwikoo extends HTMLElement {
+            private readonly tname: string;
+            private tel: HTMLDivElement;
+
+            constructor() {
+                super();
+                this.tname = this.dataset.name ?? "";
+            }
+
+            connectedCallback() {
+                this.render();
+                this.initTwikoo();
+            }
+
+            initTwikoo() {
+                if (typeof twikoo !== "undefined") {
+                    this.tel.innerHTML = "";
+                    const cfg = this.createConfig();
+                    // console.log("[Twikoo] 初始化配置:", cfg);
+                    twikoo.init(cfg);
+                    // .then(() => {
+                    // console.log("[Twikoo] 初始化完成");
+                    // })
+                    // .catch((error) => {
+                    // console.error("[Twikoo] 初始化失败:", error);
+                    // });
+                } else {
+                    setTimeout(this.initTwikoo.bind(this), 500);
+                }
+            }
+
+            private createConfig(): ITwikooConfig {
+                return {
+                    ...commentConfig.twikoo,
+                    visitorCount: false,
+                    el: `#tcomment-${this.tname}`,
+                    path: `/moments/${this.tname}/`,
+                } as ITwikooConfig;
+            }
+
+            private render() {
+                this.tel = document.createElement("div");
+                this.tel.id = `tcomment-${this.tname}`;
+                this.appendChild(this.tel);
+            }
+        }
+
+        customElements.define("mm-twikoo", MomentsTwikoo);
+
+
+        const momentsEventHandler = async () => {
+            dayjsInit();
+            const momentsContainer = document.querySelector("#moments-container") as HTMLDivElement;
+            const loadMoreContainer = document.querySelector("#load-more-container") as HTMLDivElement;
+            let { items, nextToken } = await getMoments();
+            momentsContainer.innerHTML = getMomentsHTML(items);
+            loadMoreContainer.innerHTML = getLoadMoreBtnHTML(nextToken);
+            let loadMoreBtn = document.querySelector("#load-more-btn") as HTMLButtonElement;
+            let currentComments: string = "";
+            let previousComments: string = "";
+            let loadMoreTimes = 0;
+
+            const newMomentsThreshold = (mm: HTMLDivElement, i: number) => {
+                if (i < loadMoreTimes * 10) return;
+                const btn = mm.querySelector(".toggle-comments-btn") as HTMLButtonElement;
+                const tname = btn.dataset.name ?? "";
+                const commentsWrapper = mm.querySelector(".mm-comments-wrapper") as HTMLElement;
+                btn.addEventListener("click", () => {
+                    btn.classList.toggle("bg-transparent");
+                    btn.classList.toggle("bg-(--btn-regular-bg-hover)");
+                    let orgCommentsWrapper: HTMLElement | null = null;
+                    if (currentComments !== "" && currentComments !== tname) {
+                        const orgBtn = momentsContainer.querySelector(`.toggle-comments-btn[data-name='${currentComments}']`) as HTMLButtonElement;
+                        orgCommentsWrapper = momentsContainer.querySelector(`.mm-comments-wrapper[data-name='${currentComments}']`) as HTMLElement;
+                        orgBtn.click();
+                    }
+                    let mmTwikoo: MomentsTwikoo | null = mm.querySelector("mm-twikoo");
+                    if (mmTwikoo === null) {
+                        currentComments = tname;
+                        commentsWrapper.innerHTML = `<mm-twikoo data-name="${tname}" style="display: block;
+                            height: calc-size(auto, size); overflow: hidden; transition: all 0.3s;"></mm-twikoo>`;
+                    } else {
+                        if (mmTwikoo.style.height.includes("0")) {
+                            currentComments = tname;
+                            if (previousComments !== tname) {
+                                mmTwikoo.initTwikoo();
+                                (mmTwikoo.querySelector("span.tk-icon.__comments") as HTMLSpanElement).click();
+                            }
+                            mmTwikoo.style.height = "calc-size(auto, size)";
+                        } else {
+                            previousComments = currentComments;
+                            currentComments = "";
+                            mmTwikoo.style.height = "0";
+                        }
+                    }
+                    if (orgCommentsWrapper !== null) {
+                        const position = orgCommentsWrapper.compareDocumentPosition(commentsWrapper);
+                        if (position & Node.DOCUMENT_POSITION_FOLLOWING) {
+                            setTimeout(() => {
+                                window.scrollBy(0, orgCommentsWrapper.clientHeight - commentsWrapper.clientHeight);
+                            }, 300);
+                        }
+                    }
+                });
+            };
+
+            momentsContainer.childNodes.forEach(newMomentsThreshold);
+
+            loadMoreBtn?.addEventListener("click", async () => {
+                if (nextToken === "") return;
+                ++loadMoreTimes;
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.innerHTML = "加载中……";
+                loadMoreBtn.classList.remove("hover:bg-(--btn-regular-bg-hover)");
+                loadMoreBtn.classList.remove("active:bg-(--btn-regular-bg-active)");
+                loadMoreBtn.classList.add("text-(--content-meta)");
+                loadMoreBtn.classList.add("cursor-not-allowed");
+                const { items: items1, nextToken: nextToken1 } = await loadMoreMoments(nextToken);
+                momentsContainer.insertAdjacentHTML("beforeend", getMomentsHTML(items1, false));
+                if (nextToken1 === "") {
+                    loadMoreContainer.innerHTML = getLoadMoreBtnHTML("");
+                } else {
+                    nextToken = nextToken1;
+                    loadMoreBtn.disabled = false;
+                    loadMoreBtn.innerHTML = "加载更多……";
+                    loadMoreBtn.classList.add("hover:bg-(--btn-regular-bg-hover)");
+                    loadMoreBtn.classList.add("active:bg-(--btn-regular-bg-active)");
+                    loadMoreBtn.classList.remove("text-(--content-meta)");
+                    loadMoreBtn.classList.remove("cursor-not-allowed");
+                }
+                momentsContainer.childNodes.forEach(newMomentsThreshold);
+            });
+        };
+
+        document.addEventListener("moments:ready", momentsEventHandler);
+        window.addEventListener("DOMContentLoaded", momentsEventHandler);
+    </script>
+</MainGridLayout>
