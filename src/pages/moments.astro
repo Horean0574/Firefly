@@ -105,6 +105,9 @@ const description = i18n(I18nKey.momentsDescription);
     </div>
 
     <script is:inline src={url("/assets/js/firefly-twikoo-1.6.44.all.min.js")}></script>
+    <script is:inline>
+        document.dispatchEvent(new CustomEvent("moments:begin:fetch"));
+    </script>
     <script>
         import {
             dayjsInit,
@@ -257,7 +260,7 @@ const description = i18n(I18nKey.momentsDescription);
             });
         };
 
-        document.addEventListener("moments:ready", momentsEventHandler);
-        window.addEventListener("DOMContentLoaded", momentsEventHandler);
+        momentsEventHandler();
+        document.addEventListener("moments:begin:fetch", momentsEventHandler);
     </script>
 </MainGridLayout>
