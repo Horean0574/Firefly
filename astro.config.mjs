@@ -81,7 +81,7 @@ export default defineConfig({
 				"fa7-brands": ["*"],
 				"fa7-regular": ["*"],
 				"fa7-solid": ["*"],
-				"simple-icons": ["*"], 
+				"simple-icons": ["*"],
 				mdi: ["*"],
 			},
 		}),
@@ -228,7 +228,7 @@ export default defineConfig({
 			minify: "terser",
 			terserOptions: {
 				compress: {
-					drop_console: false, // 生产环境可改为true移除console
+					drop_console: true, // 生产环境可改为true移除console
 					drop_debugger: true,
 				},
 				mangle: true,
