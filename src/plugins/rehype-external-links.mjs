@@ -37,7 +37,7 @@ export default function rehypeExternalLinks(options = {}) {
 			}
 
 			node.properties.target = "_blank";
-			node.properties.rel = "noopener";
+			node.properties.rel = "noopener noreferrer";
 		});
 	};
 }
