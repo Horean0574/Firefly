@@ -115,7 +115,7 @@ export function getMomentsHTML(items: MomentItem[], initial: boolean = true): st
                 <section>
                     <p class="font-bold text-base text-gray-950 dark:text-gray-50">${profileConfig.name}</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">${item.created}</p>
-                    <div class="custom-md prose mt-2.5 text-gray-900 dark:text-gray-100">${item.content}</div>
+                    <div class="custom-md prose max-w-full mt-2.5 text-gray-900 dark:text-gray-100">${item.content}</div>
                 </section>
             </div>
             <div class="mt-6 text-right">
