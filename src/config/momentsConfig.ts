@@ -10,11 +10,11 @@ export const memosConfig: MemosConfig = {
     pageLimit: 10,
 };
 
-export const dayjsInit = (): void => {
+export function dayjsInit() {
     dayjs.extend(relativeTime);
     dayjs.extend(weekday);
     dayjs.locale("zh-cn");
-};
+}
 
 function customCalendar(date: dayjs.Dayjs | string, referenceDay: dayjs.Dayjs | string = dayjs()) {
     const ref = dayjs(referenceDay);
@@ -61,34 +61,52 @@ function customCalendar(date: dayjs.Dayjs | string, referenceDay: dayjs.Dayjs | 
     return specify(target.format("YYYY年M月D日"), target);
 }
 
-const fetchMoments = async (API_URL: string): Promise<MomentsLoadResult> => {
+function convertContent(content: string): string {
+    return content.replace(/^(#{1,6})\s+(.+)$/gm, (_, hashes, content) => {
+        const level = hashes.length;
+        return `<h${level}>${content}</h${level}>`;
+    })
+        .replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/__([^_]+?)__/g, "<strong>$1</strong>")
+        .replace(/\*([^*]+?)\*/g, "<em>$1</em>")
+        .replace(/_([^_]+?)_/g, "<em>$1</em>")
+        .replace(/~~([^~]+?)~~/g, "<del>$1</del>")
+        .replace(/`([^`]+)`/g, "<code>$1</code>")
+        .replace(/\[([^\]]+)]\(([^)]+)\)/g, (_, text, url) => {
+            const safeUrl: string = url.replace(/^javascript:/i, "#");
+            const target: string = safeUrl.includes(window.location.hostname) || safeUrl.startsWith("/") ? "" : `target="_blank"`;
+            return `<a href="${safeUrl}" ${target} rel="noopener noreferrer">${text}</a>`;
+        });
+}
+
+async function fetchMoments(API_URL: string): Promise<MomentsLoadResult> {
     const items: MomentItem[] = [];
     try {
         const resp = await fetch(API_URL);
         if (!resp.ok) return { items: [], nextToken: "" };
         const data = await resp.json();
-        data.memos.forEach((mem: any): void => {
+        for (const mem of data.memos) {
             items.push({
                 name: mem.name,
-                content: mem.content,
+                content: convertContent(mem.content),
                 created: customCalendar(mem.createTime),
             });
-        });
+        }
         return { items: items, nextToken: data.nextPageToken };
     } catch {
         return { items: [], nextToken: "" };
     }
-};
+}
 
-export const getMoments = async (): Promise<MomentsLoadResult> => {
+export async function getMoments(): Promise<MomentsLoadResult> {
     return fetchMoments(`https://${memosConfig.host}/api/v1/memos?pageSize=${memosConfig.pageLimit}`);
-};
+}
 
-export const loadMoreMoments = async (token: string): Promise<MomentsLoadResult> => {
+export async function loadMoreMoments(token: string): Promise<MomentsLoadResult> {
     return fetchMoments(`https://${memosConfig.host}/api/v1/memos?pageSize=${memosConfig.pageLimit}&pageToken=${token}`);
-};
+}
 
-export const getMomentsHTML = (items: MomentItem[], initial: boolean = true): string => {
+export function getMomentsHTML(items: MomentItem[], initial: boolean = true): string {
     return items.map((item: MomentItem, i) => {
         const name = item.name.split("/")[1];
         return "<div>" + (i > 0 || !initial ? `<hr class="my-6 border-dashed" style="border-color: var(--line-divider);">` : ``)
@@ -97,7 +115,7 @@ export const getMomentsHTML = (items: MomentItem[], initial: boolean = true): st
                 <section>
                     <p class="font-bold text-base text-gray-950 dark:text-gray-50">${profileConfig.name}</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">${item.created}</p>
-                    <p class="custom-md mt-2.5 text-gray-900 dark:text-gray-100">${item.content}</p>
+                    <div class="custom-md prose mt-2.5 text-gray-900 dark:text-gray-100">${item.content}</div>
                 </section>
             </div>
             <div class="mt-6 text-right">
@@ -116,9 +134,9 @@ export const getMomentsHTML = (items: MomentItem[], initial: boolean = true): st
                 <section class="mm-comments-wrapper" data-name="${name}"></section>
             </div>` + "</div>";
     }).join("");
-};
+}
 
-export const getLoadMoreBtnHTML = (token: string): string => {
+export function getLoadMoreBtnHTML(token: string): string {
     return token === ""
         ? `<p class="text-gray-400 text-[0.75rem]">---------------&nbsp;已经到底了哦&nbsp;---------------</p>`
         : `<button id="load-more-btn" class="inline-block h-10 px-6 py-2 border-none rounded-lg text-sm text-center
@@ -127,4 +145,4 @@ export const getLoadMoreBtnHTML = (token: string): string => {
             style="box-shadow: 0 1px 2px #0000000d;">
                 加载更多……
             </button>`;
-};
+}

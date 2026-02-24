@@ -115,8 +115,8 @@ const description = i18n(I18nKey.momentsDescription);
             loadMoreMoments,
             getMomentsHTML,
             getLoadMoreBtnHTML,
+            commentConfig,
         } from "@/config";
-        import { commentConfig } from "@/config/commentConfig";
 
         interface ITwikooConfig {
             envId: string;
@@ -174,7 +174,6 @@ const description = i18n(I18nKey.momentsDescription);
         }
 
         customElements.define("mm-twikoo", MomentsTwikoo);
-
 
         const momentsEventHandler = async () => {
             dayjsInit();
