@@ -62,7 +62,8 @@ function customCalendar(date: dayjs.Dayjs | string, referenceDay: dayjs.Dayjs | 
 }
 
 function convertContent(content: string): string {
-    return content.replace(/^(#{1,6})\s+(.+)$/gm, (_, hashes, content) => {
+    return content
+		.replace(/^(#{1,6})\s+(.+)$/gm, (_, hashes, content) => {
         const level = hashes.length;
         return `<h${level}>${content}</h${level}>`;
     })
@@ -72,6 +73,10 @@ function convertContent(content: string): string {
         .replace(/_([^_]+?)_/g, "<em>$1</em>")
         .replace(/~~([^~]+?)~~/g, "<del>$1</del>")
         .replace(/`([^`]+)`/g, "<code>$1</code>")
+		.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, url) => {
+            const safeUrl: string = url.replace(/^javascript:/i, "#");
+            return `<img src="${safeUrl}" alt="${alt || ""}" class="max-w-full h-auto">`;
+        })
         .replace(/\[([^\]]+)]\(([^)]+)\)/g, (_, text, url) => {
             const safeUrl: string = url.replace(/^javascript:/i, "#");
             const target: string = safeUrl.includes(window.location.hostname) || safeUrl.startsWith("/") ? "" : `target="_blank"`;
