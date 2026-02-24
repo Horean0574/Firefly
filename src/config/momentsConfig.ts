@@ -134,9 +134,9 @@ export function getMomentsHTML(items: MomentItem[], initial: boolean = true): st
                     <span class="align-middle text-[0.75rem]">评论</span>
                 </button>
             </div>
-            <div class="flex gap-2.5">
+            <div class="flex gap-3.5">
                 <span class="inline-block w-8 h-8 opacity-0">Lorem ipsum.</span>
-                <section class="mm-comments-wrapper" data-name="${name}"></section>
+                <section class="mm-comments-wrapper w-full" data-name="${name}"></section>
             </div>` + "</div>";
     }).join("");
 }
