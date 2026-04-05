@@ -48,7 +48,7 @@ export const friendsConfig: FriendLink[] = [
     },
     {
         title: "博客圈",
-        imgurl: "https://bokequan.cn/wp-content/uploads/2024/10/1730017489-logo.png",
+        imgurl: "https://bokequan.cn/wp-content/uploads/2026/03/1772941033-%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210914170513.png",
         desc: "致力于个人独立博客",
         siteurl: "https://bokequan.cn",
         tags: ["博客收录"],
@@ -147,7 +147,7 @@ export const friendsConfig: FriendLink[] = [
     },
     {
         title: "Rownix's Blog",
-        imgurl: "https://xapi.rownix.dev/8bec399a8d697bf4db49df6073b263795760a2a9.jpg",
+        imgurl: "https://www.rownix.dev/favicon-96x96.png",
         desc: "慢即是快，快即是慢，致力于为大家提供最好的内容",
         siteurl: "https://www.rownix.dev",
         tags: ["博客"],
