@@ -1,0 +1,72 @@
+.tk-meta-input .el-input {
+    min-height: calc(var(--spacing) * 9);
+}
+
+.tk-meta-input .el-input .el-input-group__prepend {
+    min-width: 4rem;
+}
+
+.tk-meta-input .el-input .el-input__inner {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+}
+
+div.tk-input.el-textarea textarea.el-textarea__inner {
+    min-height: 120px !important;
+    height: 120px !important;
+}
+
+div.tk-row.actions {
+    margin-top: calc(var(--spacing, 0.25rem) * 2) !important;
+    margin-bottom: calc(var(--spacing, 0.25rem) * 2) !important;
+}
+
+.OwO div.OwO-logo {
+    width: 1rem;
+}
+
+.tk-row.actions .tk-send {
+    padding: 0 1.25rem !important;
+    height: 2.2rem !important;
+}
+
+div.tk-comments-title {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+div.tk-comment {
+    margin-top: 0.6rem;
+    padding: calc(var(--spacing, 0.25rem) * 3);
+}
+
+div.tk-avatar {
+    margin-right: 0.6rem;
+}
+
+.tk-avatar.tk-has-avatar {
+    width: 2.1rem;
+    height: 2.1rem;
+}
+
+.tk-avatar img.tk-avatar-img {
+    width: 2.1rem;
+    height: 2.1rem;
+}
+
+.tk-main .tk-row {
+    font-size: 0.9rem;
+}
+
+.tk-main .tk-content {
+    margin-top: 0;
+    font-size: 0.96rem;
+}
+
+.tk-main .tk-extras {
+    font-size: 0.7rem;
+}
+
+.tk-main .tk-replies {
+    font-size: 0.96rem;
+}
