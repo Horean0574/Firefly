@@ -185,6 +185,15 @@ export const friendsConfig: FriendLink[] = [
         weight: 1,
         enabled: true,
     },
+	{
+		title: "洛元の小屋",
+		imgurl: "https://blog.dimeta.top/upload/avatar.jpg",
+		desc: "洛元の小屋，科技，游戏，生活为主的blog",
+		siteurl: "https://blog.dimeta.top/",
+		tags: ["博客"],
+		weight: 1,
+		enabled: true,
+	},
 ];
 
 // 获取启用的友链并进行排序
