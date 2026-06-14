@@ -75,5 +75,11 @@ export const sponsorConfig: SponsorConfig = {
 			amount: "¥20",
 			date: "2025-10-01",
 		},*/
+		{
+			name: "Cosk",
+			avatar: "https://weavatar.com/avatar/847c22a8228c4e90bece23af4caaa8b9?d=initials&name=cosk",
+			amount: "¥6.21",
+			date: "2026-3-14",
+		},
 	],
 };
