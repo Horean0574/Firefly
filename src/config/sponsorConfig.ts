@@ -55,6 +55,14 @@ export const sponsorConfig: SponsorConfig = {
 			description: "通过 爱发电 进行赞助",
 			enabled: true,
 		},
+		{
+			name: "雨云",
+			icon: "material-symbols:rainy-outline",
+			qrCode: "",
+			link: "https://www.rainyun.com/Horean66_?s=blog",
+			description: "通过在 雨云 使用优惠码「Horean66」注册并购买云服务进行赞助",
+			enabled: true,
+		},
 	],
 
 	// 赞助者列表（可选）
