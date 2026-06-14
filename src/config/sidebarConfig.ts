@@ -116,7 +116,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件位置
 			position: "top",
 			// 是否在文章详情页显示
-			showOnPostPage: true,
+			showOnPostPage: false,
 			// 组件专属配置
 			specificConfig: {
 				siteInfo: {
@@ -191,23 +191,23 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 组件类型：广告栏组件 2
 			type: "advertisement",
 			// 是否启用该组件
-			enable: false,
+			enable: true,
 			// 组件位置
-			position: "sticky",
+			position: "top",
 			// 是否在文章详情页显示
 			showOnPostPage: true,
 			// 组件专属配置（广告内容直接在此配置）
 			specificConfig: {
 				ad: {
-					title: "支持博主",
+					title: "润雨计划",
 					content:
-						"如果您觉得本站内容对您有帮助，欢迎支持我们的创作！您的支持是我们持续更新的动力。",
+						"欢迎大家在「雨云」购买云服务，注册时使用优惠码：Horean66，或点击下方按钮注册直达优惠！",
 					link: {
-						text: "支持一下",
-						url: "about/",
-						external: false,
+						text: "获取优惠",
+						url: "https://www.rainyun.com/Horean66_?s=blog",
+						external: true,
 					},
-					closable: false,
+					closable: true,
 					displayCount: -1,
 				},
 			},

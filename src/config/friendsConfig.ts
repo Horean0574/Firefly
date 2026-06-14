@@ -51,12 +51,21 @@ export const friendsConfig: FriendLink[] = [
         enabled: true,
     },
     {
+    	title: "雨云",
+	imgurl: "https://img.hxrch.top/rainyun-logo.png",
+	desc: "雨云 - 新一代云服务提供商",
+	siteurl: "https://rainyun.com",
+	tags: ["云厂商"],
+	weight: 9,
+	enabled: true,
+    },
+    {
         title: "开往 | 友链接力",
         imgurl: "https://img.hxrch.top/travellings_favicon.webp",
         desc: "让传统友链“活跃”，让网页相互接力，让流量相互流动，让网络开放起来",
         siteurl: "https://www.travellings.cn",
         tags: ["博客收录"],
-        weight: 9,
+        weight: 7,
         enabled: true,
     },
     {
@@ -65,8 +74,8 @@ export const friendsConfig: FriendLink[] = [
         desc: "致力于个人独立博客",
         siteurl: "https://bokequan.cn",
         tags: ["博客收录"],
-        weight: 9,
-        enabled: true,
+        weight: 7,
+        enabled: false,
     },
     {
         title: "个站商店",
@@ -74,7 +83,7 @@ export const friendsConfig: FriendLink[] = [
         desc: "一个精致的，带社交元素的个人网站发布平台，博客收录网站",
         siteurl: "https://storeweb.cn",
         tags: ["博客收录"],
-        weight: 9,
+        weight: 7,
         enabled: true,
     },
     {
