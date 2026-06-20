@@ -63,10 +63,6 @@ function customCalendar(date: dayjs.Dayjs | string, referenceDay: dayjs.Dayjs | 
 
 function convertContent(content: string): string {
     return content
-        .replace(/\n{2,}/g, '</p><p>')
-        .replace(/\n/g, ' ')
-        .replace(/^/, '<p>')
-        .replace(/$/, '</p>')
 		.replace(/^(#{1,6})\s+(.+)$/gm, (_, hashes, content) => {
         const level = hashes.length;
         return `<h${level}>${content}</h${level}>`;
@@ -85,7 +81,11 @@ function convertContent(content: string): string {
             const safeUrl: string = url.replace(/^javascript:/i, "#");
             const target: string = safeUrl.includes(window.location.hostname) || safeUrl.startsWith("/") ? "" : `target="_blank"`;
             return `<a href="${safeUrl}" ${target} rel="noopener noreferrer">${text}</a>`;
-        });
+        })
+        .replace(/\n{2,}/g, '</p><p>')
+        .replace(/\n/g, ' ')
+        .replace(/^/, '<p>')
+        .replace(/$/, '</p>');
 }
 
 async function fetchMoments(API_URL: string): Promise<MomentsLoadResult> {
