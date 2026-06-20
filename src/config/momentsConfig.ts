@@ -63,6 +63,10 @@ function customCalendar(date: dayjs.Dayjs | string, referenceDay: dayjs.Dayjs | 
 
 function convertContent(content: string): string {
     return content
+        .replace(/\n{2,}/g, '</p><p>')
+        .replace(/\n/g, ' ')
+        .replace(/^/, '<p>')
+        .replace(/$/, '</p>')
 		.replace(/^(#{1,6})\s+(.+)$/gm, (_, hashes, content) => {
         const level = hashes.length;
         return `<h${level}>${content}</h${level}>`;
