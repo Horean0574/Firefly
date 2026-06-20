@@ -52,12 +52,12 @@ export const friendsConfig: FriendLink[] = [
     },
     {
     	title: "雨云",
-	imgurl: "https://img.hxrch.top/rainyun-logo.png",
-	desc: "雨云 - 新一代云服务提供商",
-	siteurl: "https://rainyun.com",
-	tags: ["云厂商"],
-	weight: 9,
-	enabled: true,
+		imgurl: "https://img.hxrch.top/rainyun-logo.png",
+		desc: "雨云 - 新一代云服务提供商",
+		siteurl: "https://www.rainyun.com/Horean66_?s=blog",
+		tags: ["云厂商"],
+		weight: 9,
+		enabled: true,
     },
     {
         title: "开往 | 友链接力",
