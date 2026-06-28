@@ -40,20 +40,15 @@ draft: false
 
 简单来说，[Firefly](https://firefly.cuteleaf.cn) 是这样的一款主题：
 
-:::info[Firefly 主题简介]
-
+> [!info] Firefly 主题简介
 **Firefly** 是一款基于 **Astro** 框架和 **Fuwari** 模板开发的清新美观且现代化个人博客主题，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。
-
-- ⚡ **静态站点生成**: 基于Astro的超快加载速度和SEO优化
-- 🎨 **现代化设计**: 简洁美观的界面，支持自定义主题色
-- 📱 **移动友好**: 完美的响应式体验，移动端专项优化
-- 🔧 **高度可配置**: 大部分模块均可通过配置文件自定义
-
-::github{repo="CuteLeaf/Firefly"}
-
-::github{repo="saicaca/fuwari"}
-
-:::
+> - ⚡ **静态站点生成**: 基于Astro的超快加载速度和SEO优化
+> - 🎨 **现代化设计**: 简洁美观的界面，支持自定义主题色
+> - 📱 **移动友好**: 完美的响应式体验，移动端专项优化
+> - 🔧 **高度可配置**: 大部分模块均可通过配置文件自定义
+> 
+> ::github{repo="CuteLeaf/Firefly"}
+> ::github{repo="saicaca/fuwari"}
 
 那么最终我选择迁移的主题就确定了：[Firefly](https://firefly.cuteleaf.cn)！这次是真的可以开始迁移了！
 
@@ -198,11 +193,8 @@ export const commentConfig: CommentConfig = {
 | ${PARENT_COMMENT} | 被回复者评论                    |
 | ${PARENT_IMG}     | 被回复者头像                    |
 
-:::tip[提示]
-
-上述表格中 `字段含义` 前面标星号（*）代表评论和回复两个模式都包含这个字段
-
-:::
+> [!tip] 提示
+> 上述表格中 `字段含义` 前面标星号（*）代表评论和回复两个模式都包含这个字段
 
 接下来要做的便是写邮件HTML5模板，当然，我目前没有那么多精力完全由自己打造一款，所以我就在互联网上借鉴了一款邮件通知模板并稍作改进。成品参考图如下：
 
@@ -210,11 +202,8 @@ export const commentConfig: CommentConfig = {
 
 实现代码大致如下（分为*评论模式[master]* 和 *回复模式[visitor]*）**（使用时请往下找到压缩版本以提升加载速度）**：
 
-:::caution[注意]
-
-代码中高亮部分需要替换为自己的博客图标地址！
-
-:::
+> [!caution] 注意
+> 代码中高亮部分需要替换为自己的博客图标地址！
 
 ```html title="master.html" "https://img.hxrch.top/bfav256.webp"
 <div class="page flex-col">
@@ -377,8 +366,5 @@ export const commentConfig: CommentConfig = {
 
 这次写的文章真的比上次还要长好多，但是写起来并不会那么累——毕竟不是数学题了！
 
-:::note[The End]
-
-好的好的，2026年第二篇文章到此结束啦~
-
-:::
+> [!note] The End
+> 好的好的，2026年第二篇文章到此结束啦~

@@ -191,11 +191,8 @@ draft: false
 </tbody>
 </table>
 
-:::warning[注意]
-
-非常重要的一点，这里需要注意相同字段在两种不同的评论系统下**数据类型可能不同**。
-
-:::
+> [!warning] 注意
+> 非常重要的一点，这里需要注意相同字段在两种不同的评论系统下**数据类型可能不同**。
 
 ## 程序构思
 
@@ -235,12 +232,9 @@ draft: false
 
 - `[comment]` 应为 HTML 格式，而 `<comment>` 可以选择是否保留 HTML 标签，所以转换时需要把 `<comment>` 从 Markdown 进一步转换为 HTML.
 
-:::note[提醒]
-
-1. `<user_id>` 字段可以<u>完全不用理会</u>，因为未注册的用户没有这一属性，所以这里以 `<mail>` 作为判断是否为同一用户的依据。
-2. `<like>` 字段也可以<u>不用理会</u>，因为 [Waline](https://waline.js.org/) 中的 `<like>` 字段存储数据为点赞总量，而 [Twikoo](https://twikoo.js.org/) 中的 `[like]` 字段则是一个包含点赞用户ID的数组，所以不兼容，只可从 [Twikoo](https://twikoo.js.org/) 到 [Waline](https://waline.js.org/) 单向转换。
-
-:::
+> [!note] 提醒
+> 1. `<user_id>` 字段可以<u>完全不用理会</u>，因为未注册的用户没有这一属性，所以这里以 `<mail>` 作为判断是否为同一用户的依据。
+> 2. `<like>` 字段也可以<u>不用理会</u>，因为 [Waline](https://waline.js.org/) 中的 `<like>` 字段存储数据为点赞总量，而 [Twikoo](https://twikoo.js.org/) 中的 `[like]` 字段则是一个包含点赞用户ID的数组，所以不兼容，只可从 [Twikoo](https://twikoo.js.org/) 到 [Waline](https://waline.js.org/) 单向转换。
 
 ### 流程&算法
 
@@ -261,15 +255,11 @@ draft: false
 
 也可以直接在这里下载运行主要代码文件（更多详细说明还请参考 [GitHub 仓库](https://github.com/Horean0574/waline2twikoo/)）：
 
-:::tip[注意]
-
-根据以上流程，本程序需提前安装的第三方库：`click`, `Markdown`:
-
-```bash
-pip install click markdown
-```
-
-:::
+> [!tip] 注意
+> 根据以上流程，本程序需提前安装的第三方库：`click`, `Markdown`:
+> ```bash
+> pip install click markdown
+> ```
 
 ```python title="main.py"
 import json
