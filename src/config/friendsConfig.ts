@@ -203,6 +203,15 @@ export const friendsConfig: FriendLink[] = [
 		weight: 1,
 		enabled: true,
 	},
+	{
+		title: "蒋音象",
+		imgurl: "https://jiangyx.org/images/avatar.webp",
+		desc: "以文会友，以友辅仁。",
+		siteurl: "https://jiangyx.org",
+		tags: ["博客"],
+		weight: 1,
+		enabled: true,
+	},
 ];
 
 // 获取启用的友链并进行排序
